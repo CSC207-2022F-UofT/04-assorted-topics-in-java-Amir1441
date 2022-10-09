@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-class DrivableMap {
+class DrivableMap implements Drivable{
     HashMap<String, Drivable> drivable_map;
 
     /**
@@ -27,6 +27,15 @@ class DrivableMap {
      *       in drivable_map, then add the pair to drivable_map.
      *       Return true if the Drivable was added to drivable_map.
      */
+    public boolean addDrivable(String ID, Drivable object) {
+        if ( ! drivable_map.containsKey(ID)){
+            drivable_map.put(ID, object);
+            return drivable_map.containsKey(ID);
+
+        }
+
+        return false;
+    }
 
 
 
@@ -37,6 +46,46 @@ class DrivableMap {
      * You may want to use drivable_map.keys() or drivable_map.values() to
      * iterate through drivable_map.
      */
+    public boolean hasFasterThan(int speed){
+        if (drivable_map.containsValue(speed)){
+            return true;
+        }
+        for (Drivable d: drivable_map.values()){
+            if(d.getMaxSpeed() >= speed) {
+                return true;
+            }
+        }
+        return false;
+
+
+
+    }
+
+    /**
+     * Increase the maximum speed of this Vehicle.
+     **/
+    @Override
+    public void upgradeSpeed() {
+
+    }
+
+    /**
+     * Decrease the maximum speed of this Vehicle.
+     **/
+    @Override
+    public void downgradeSpeed() {
+
+    }
+
+    /**
+     * Return the maximum speed of this Vehicle.
+     *
+     * @return The current maximum speed of this Vehicle.
+     **/
+    @Override
+    public int getMaxSpeed() {
+        return 0;
+    }
 
 
 
@@ -46,6 +95,22 @@ class DrivableMap {
      *       returns a List containing all of the Tradable items in
      *       drivable_map.
      */
+
+    public List<Tradable> getTradable(){
+        List<Tradable> tradableItems = new ArrayList<>();
+        DrivableTrader traderr = new DrivableTrader(2);
+        for (Drivable tradeMan: drivable_map.values()){
+            if (traderr.getSellingPrice(tradeMan) != Tradable.MISSING_PRICE){
+                tradableItems.add(traderr);
+
+            }
+        }
+        return tradableItems;
+
+
+    }
+
+
 
 
 
